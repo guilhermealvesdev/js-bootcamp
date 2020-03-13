@@ -1,5 +1,50 @@
-var todo = ['Tomar banho', 'escovar os dentes', 'ir pro trabalho', 'ir pra academia', 'dormir'];
+var toDos = [
+    {
+        activity:"Tomar banho",
+        completed: true
+    },
+    {
+        activity:"Escovar os dentes",
+        completed: true
+    },
+    {
+        activity: "Ir para o trabalho",
+        completed: true
+    },
+    {  
+        activity: "Ir para a academia",
+        completed: false
+    },
+    {
+        activity: "Dormir",
+        completed: false
+    }
+];
 
-console.log(`You have ${todo.length} todos`);
-console.log(`Todo: ${todo[todo.length - 1]}`);
-console.log(`Todo: ${todo[todo.length - 2]}`);
+function removeTodo(lista, textoPraRemover) {
+    const index = lista.findIndex(function(toDo){
+        return toDo.activity.toLowerCase() === textoPraRemover.toLowerCase();
+    });
+    
+    if (index > -1) {
+        toDos.splice(index, 1);
+    }
+}
+
+removeTodo(toDos, 'DORMIR');
+console.log(toDos);
+
+// console.log(removeTodo(toDos, "Dormir"));
+// console.log(toDos);
+
+// toDos.splice(2, 1);
+// toDos.push('jogar videogame');
+// toDos.shift();
+// console.log(`You have ${toDos.length} todos`);
+// toDos.forEach(function(item, index){
+//     console.log(`${index + 1}. ${item}`);
+// });
+
+// for (let count = 0; count < toDos.length; count++) {
+//     console.log(`${count + 1}. ${toDos[count]}`);
+// }
