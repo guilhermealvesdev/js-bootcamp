@@ -5,7 +5,7 @@ var toDos = [
     },
     {
         activity:"Escovar os dentes",
-        completed: true
+        completed: false
     },
     {
         activity: "Ir para o trabalho",
@@ -31,8 +31,18 @@ function removeTodo(lista, textoPraRemover) {
     }
 }
 
-removeTodo(toDos, 'DORMIR');
-console.log(toDos);
+const getThingsToDo = function (lista, texto) {
+    return lista.filter(function(toDo, index){    
+        const activityCheck = toDo.activity.toLowerCase().includes(texto.toLowerCase());
+        const completedCheck = toDo.completed.toString().toLowerCase().includes(texto.toLowerCase());
+        return activityCheck || completedCheck;
+    });
+};
+
+console.log(getThingsToDo(toDos, "FALSE"));
+
+// removeTodo(toDos, 'DORMIR');
+// console.log(toDos);
 
 // console.log(removeTodo(toDos, "Dormir"));
 // console.log(toDos);
