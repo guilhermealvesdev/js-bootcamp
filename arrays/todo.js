@@ -39,7 +39,24 @@ const getThingsToDo = function (lista, texto) {
     });
 };
 
-console.log(getThingsToDo(toDos, "FALSE"));
+const sortTodos = function (array) {
+    array.sort(function(a, b){
+        if (!a.completed && b.completed) {
+            return -1;
+        } else if (a.completed && !b.completed) {
+            return 1;
+        } else {
+            return 0;
+        }
+    });
+};
+
+sortTodos(toDos);
+console.log(toDos);
+
+
+
+// console.log(getThingsToDo(toDos, "FALSE"));
 
 // removeTodo(toDos, 'DORMIR');
 // console.log(toDos);
