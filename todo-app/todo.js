@@ -1,7 +1,26 @@
-const ps = document.querySelectorAll('p');
+const toDos = [
+    {
+        activity:"Tomar banho",
+        completed: true
+    },
+    {
+        activity:"Escovar os dentes",
+        completed: false
+    },
+    {
+        activity: "Ir para o trabalho",
+        completed: true
+    },
+    {  
+        activity: "Ir para a academia",
+        completed: false
+    },
+    {
+        activity: "Dormir",
+        completed: false
+    }
+];
 
-ps.forEach(function(item){
-    if (item.textContent.includes('the')){
-        item.remove();
-    };
+document.querySelector('button').addEventListener('click', function(){
+    console.log('clicked');
 });

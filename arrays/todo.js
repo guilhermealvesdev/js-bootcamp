@@ -1,4 +1,4 @@
-var toDos = [
+const toDos = [
     {
         activity:"Tomar banho",
         completed: true
@@ -32,7 +32,7 @@ function removeTodo(lista, textoPraRemover) {
 }
 
 const getThingsToDo = function (lista, texto) {
-    return lista.filter(function(toDo, index){    
+    return lista.filter(function(toDo){    
         const activityCheck = toDo.activity.toLowerCase().includes(texto.toLowerCase());
         const completedCheck = toDo.completed.toString().toLowerCase().includes(texto.toLowerCase());
         return activityCheck || completedCheck;
