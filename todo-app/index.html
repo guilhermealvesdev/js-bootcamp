@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teste</title>
+    <title>TODOS</title>
     <script src="todo.js" defer></script>
 </head>
 <body>
     <h1>Todos</h1>
-    <input type="input" id="campo" />
-    <button id="adicionar">Adicionar</button>
-    <button id="remover">Remover</button>
-
-    <h2>Você tem todos</h2>
+    <input type="input" id="filtrar" placeholder="Filtrar" /> <label><input type="checkbox" id="oculta-completados" /> Ocultar completados</label>
+    <div id="lista"></div>
+    <form id="formulario">
+        <input type="input" id="campo-adicionar" name="todo" /> <button>Adicionar</button>
+    </form>
 </body>
 </html>

@@ -21,33 +21,69 @@ const toDos = [
     }
 ];
 
-//Filtrar tudo do objeto pra procurar
-const incompleteTodos = toDos.filter(function(todo){
-    return !todo.completed;
-});
+const filtro = {
+    texto: '',
+    ocultaCompletas: false
+}
 
-console.log(incompleteTodos);
+//Função que renderiza todos os itens da array
+const renderizaFiltro = function(tarefas, filtro){
 
+    //Itens filtrados
+    let filtrados = tarefas.filter(function(item){
+        return item.activity.toLowerCase().includes(filtro.texto.toLowerCase());
+    });
 
-//Colocar tudo em vários <p>
-toDos.forEach(function(todo){
-    const p = document.createElement('p');
-    p.textContent = todo.activity;
-    document.querySelector('body').appendChild(p);
-});
+    //Olha, meu amigo, nem eu entendi isso aqui. Assiste de novo a aula 59, por favor.
+    filtrados = filtrados.filter(function(item){
+        return !filtro.ocultaCompletas || !item.completed;
+    });
 
+    //Filtrar incompletos
+    const incompleteTodos = filtrados.filter(function(todo){
+        return !todo.completed;
+    });
+    
+    document.querySelector('#lista').innerHTML = '';
+
+    const resumo = document.createElement('h2');
+    resumo.textContent = `Você tem ${incompleteTodos.length} atividades pra fazer`
+    document.querySelector('#lista').appendChild(resumo);
+    
+    filtrados.forEach(function(item){
+        const p = document.createElement('p');
+        p.textContent = item.activity;
+        document.querySelector("#lista").appendChild(p);
+    });
+};
+
+renderizaFiltro(toDos, filtro);
 
 //Listeners
 
-document.querySelector('#campo').addEventListener('input', function(e){
-    console.log(e.target.value);
+//Listener pra quando o usuário digitar no campo de input
+document.querySelector('#filtrar').addEventListener('input', function(e){
+    filtro.texto = e.target.value;    
+    renderizaFiltro(toDos, filtro);
 });
 
-document.querySelector('#adicionar').addEventListener('click', function(){
-    console.log('adicionar');
+
+//Adicionar
+document.querySelector('#formulario').addEventListener('submit', function(e){
+    e.preventDefault();
+    toDos.push({
+        activity:e.target.elements.todo.value,
+        completed:false
+    });
+
+    document.querySelector("#lista").innerHTML = "";
+    renderizaFiltro(toDos, filtro);
+    
+    e.target.elements.todo.value = "";
 });
 
-document.querySelector('#remover').addEventListener('click', function(){
-    console.log('remover');
-    document.querySelector('#campo').value = "";
-});
+//Ocultar completados
+document.querySelector('#oculta-completados').addEventListener('change', function(e){
+    filtro.ocultaCompletas = e.target.checked;
+    renderizaFiltro (toDos, filtro);
+})
