@@ -1,26 +1,21 @@
-const toDos = [
-    {
-        activity:"Tomar banho",
-        completed: true
-    },
-    {
-        activity:"Escovar os dentes",
-        completed: false
-    },
-    {
-        activity: "Ir para o trabalho",
-        completed: true
-    },
-    {  
-        activity: "Ir para a academia",
-        completed: false
-    },
-    {
-        activity: "Dormir",
-        completed: false
-    }
-];
+/*
+    Array principal de atividades.
+*/
+let toDos = [];
 
+/*
+    Checar se há algum dado local (algum TO DO que o usuário colocou).
+    Se sim, atualizar a array toDos.
+*/
+const toDosJSON = localStorage.getItem("todos");
+
+if (toDosJSON !== null){
+    toDos = JSON.parse(toDosJSON);
+}
+
+/*
+    Objeto que cuida do filtro.
+*/
 const filtro = {
     texto: '',
     ocultaCompletas: false
@@ -66,8 +61,8 @@ const renderizaFiltro = function(tarefas, filtro){
     });
 
     //Filtrar incompletos
-    const incompleteTodos = filtrados.filter(function(todo){
-        return !todo.completed;
+    const incompleteTodos = filtrados.filter(function(item){
+        return !item.completed;
     });
     
     document.querySelector('#lista').innerHTML = '';
@@ -85,7 +80,10 @@ const renderizaFiltro = function(tarefas, filtro){
 
 renderizaFiltro(toDos, filtro);
 
-//Listeners
+
+/********************************
+ LISTENERS
+*******************************/
 
 //Listener pra quando o usuário digitar no campo de input
 document.querySelector('#filtrar').addEventListener('input', function(e){
@@ -94,13 +92,23 @@ document.querySelector('#filtrar').addEventListener('input', function(e){
 });
 
 
-//Adicionar
+/*
+    Adicionar atividade pra fazer à lista.
+
+    O localStorage.setItem pega o valor que foi atualizado à array principal (usando PUSH)
+    e transforma numa string (usando JSON.stringify) pra colocar essa string no localStorage.
+
+    Assim, na próxima vez que o usuário entrar na página, ele vai buscar (no início do arquivo está esse código)
+    no localStorage e renderizar a nova array atualizada.
+*/
 document.querySelector('#formulario').addEventListener('submit', function(e){
     e.preventDefault();
     toDos.push({
         activity:e.target.elements.todo.value,
         completed:false
     });
+
+    localStorage.setItem("todos", JSON.stringify(toDos));
 
     document.querySelector("#lista").innerHTML = "";
     renderizaFiltro(toDos, filtro);
