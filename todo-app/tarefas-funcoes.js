@@ -1,27 +1,32 @@
 /*
-    Array principal de atividades.
+    Função que pega as tarefas no localStorage.
+    Ela checa se há algum dado local (alguma TAREFA que o usuário colocou).
+    Se sim, atualizar a array tarefas.
 */
-let toDos = [];
+function pegaTarefas(){
+    const tarefasJSON = localStorage.getItem("tarefas");
 
-/*
-    Checar se há algum dado local (algum TO DO que o usuário colocou).
-    Se sim, atualizar a array toDos.
-*/
-const toDosJSON = localStorage.getItem("todos");
-
-if (toDosJSON !== null){
-    toDos = JSON.parse(toDosJSON);
+    if (tarefasJSON !== null){
+        return JSON.parse(tarefasJSON);
+    } else {
+        return [];
+    }
 }
 
 /*
-    Objeto que cuida do filtro.
+    Função que salva as tarefas no localStorage.
+
+    PARÂMETRO: é a array que ele vai usar para ler o conteúdo e salvar a tarefa.
 */
-const filtro = {
-    texto: '',
-    ocultaCompletas: false
+
+function salvaTarefas(array) {
+    localStorage.setItem("tarefas", JSON.stringify(array));
 }
 
-//Função que renderiza todos os itens da array
+
+/*
+    Função que renderiza todos os itens da array
+*/
 const renderizaFiltro = function(tarefas, filtro){
 
     /*
@@ -60,64 +65,58 @@ const renderizaFiltro = function(tarefas, filtro){
         return !filtro.ocultaCompletas || !item.completed;
     });
 
-    //Filtrar incompletos
-    const incompleteTodos = filtrados.filter(function(item){
+    /*
+        Filtar incompletos
+    */
+    const tarefasIncompletas = filtrados.filter(function(item){
         return !item.completed;
     });
     
+    /*
+        Limpar a barra de busca
+    */
     document.querySelector('#lista').innerHTML = '';
 
-    const resumo = document.createElement('h2');
-    resumo.textContent = `Você tem ${incompleteTodos.length} atividades pra fazer`
-    document.querySelector('#lista').appendChild(resumo);
+    /*
+        Aqui é adicionado ao à div #lista todo o conteúdo
+        que retorna da função pegaResumo().
+        Isto é, o título e a quantidade de itens.
+    */
+   document.querySelector('#lista').appendChild(pegaResumo(tarefasIncompletas));
     
+    /*
+        Aqui os itens filtrados são renderizados à tela.
+        São pegos os itens da array filtrados e chamada a função
+        gerarTarefasDOM(), que retorna um <p>, que é adicionado
+        à div #lista.
+    */
     filtrados.forEach(function(item){
-        const p = document.createElement('p');
-        p.textContent = item.activity;
-        document.querySelector("#lista").appendChild(p);
+        document.querySelector("#lista").appendChild(gerarTarefasDOM(item));
     });
 };
 
-renderizaFiltro(toDos, filtro);
-
-
-/********************************
- LISTENERS
-*******************************/
-
-//Listener pra quando o usuário digitar no campo de input
-document.querySelector('#filtrar').addEventListener('input', function(e){
-    filtro.texto = e.target.value;    
-    renderizaFiltro(toDos, filtro);
-});
-
 
 /*
-    Adicionar atividade pra fazer à lista.
+    Função que gera o elemento DOM <p> para cada tarefa,
+    e retorna esse elemento.
 
-    O localStorage.setItem pega o valor que foi atualizado à array principal (usando PUSH)
-    e transforma numa string (usando JSON.stringify) pra colocar essa string no localStorage.
-
-    Assim, na próxima vez que o usuário entrar na página, ele vai buscar (no início do arquivo está esse código)
-    no localStorage e renderizar a nova array atualizada.
+    PARÂMETRO: É o item que vai ser lido da array e adicionado ao <p>.
 */
-document.querySelector('#formulario').addEventListener('submit', function(e){
-    e.preventDefault();
-    toDos.push({
-        activity:e.target.elements.todo.value,
-        completed:false
-    });
+function gerarTarefasDOM(item) {
+    const p = document.createElement('p');
+    p.textContent = item.activity;
+    return p;
+}
 
-    localStorage.setItem("todos", JSON.stringify(toDos));
-
-    document.querySelector("#lista").innerHTML = "";
-    renderizaFiltro(toDos, filtro);
+/*
+    Função que cria o resumo de quantas tarefas existem.
     
-    e.target.elements.todo.value = "";
-});
+    PARÂMETRO: Ele pega a array que tem a quantidade de tarefas incompletas, e renderiza
+    a quantidade (length) que ela tem.
+*/
+function pegaResumo(arrayTarefasIncompletas){
+    const resumo = document.createElement('h2');
+    resumo.textContent = `Você tem ${arrayTarefasIncompletas.length} tarefas pra fazer`
 
-//Ocultar completados
-document.querySelector('#oculta-completados').addEventListener('change', function(e){
-    filtro.ocultaCompletas = e.target.checked;
-    renderizaFiltro (toDos, filtro);
-})
+    return resumo;
+}
