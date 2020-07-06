@@ -2,6 +2,7 @@
     Função que pega as tarefas no localStorage.
     Ela checa se há algum dado local (alguma TAREFA que o usuário colocou).
     Se sim, atualizar a array tarefas.
+    Se não, ele retorna uma nova array.
 */
 function pegaTarefas(){
     const tarefasJSON = localStorage.getItem("tarefas");
@@ -66,7 +67,10 @@ const renderizaFiltro = function(tarefas, filtro){
     });
 
     /*
-        Filtar incompletos
+        Filtar incompletos.
+        O JS cria uma array que retorna qualquer coisa que for diferente do que está completo (false).
+        Então, as que tiverem FALSE, vão virar TRUE, e aparecer na lista.
+        As que tiverem TRUE (completas), vão virar FALSE, e não vão aparecer.
     */
     const tarefasIncompletas = filtrados.filter(function(item){
         return !item.completed;
@@ -97,15 +101,34 @@ const renderizaFiltro = function(tarefas, filtro){
 
 
 /*
-    Função que gera o elemento DOM <p> para cada tarefa,
-    e retorna esse elemento.
+    Função que gera o elemento DOM <div> para cada tarefa
+    (junto com um checkbox e um botão de remover), e retorna esse elemento.
 
     PARÂMETRO: É o item que vai ser lido da array e adicionado ao <p>.
 */
 function gerarTarefasDOM(item) {
-    const p = document.createElement('p');
-    p.textContent = item.activity;
-    return p;
+    const container = document.createElement('div');
+
+    const checkTarefa = document.createElement('input');
+    checkTarefa.setAttribute('type', 'checkbox');
+    
+    const spanTarefa = document.createElement('span');
+    
+    const botaoRemoveTarefa = document.createElement('button');
+    botaoRemoveTarefa.textContent = "X";
+    botaoRemoveTarefa.addEventListener('click', function(e){
+        e.preventDefault();
+        removerTarefa(item.id);
+    });
+
+    spanTarefa.textContent = item.activity;
+
+    //Adiciona todos os elementos à div.
+    container.appendChild(checkTarefa);
+    container.appendChild(spanTarefa);
+    container.appendChild(botaoRemoveTarefa);
+    
+    return container;
 }
 
 /*
@@ -119,4 +142,26 @@ function pegaResumo(arrayTarefasIncompletas){
     resumo.textContent = `Você tem ${arrayTarefasIncompletas.length} tarefas pra fazer`
 
     return resumo;
+}
+
+/*
+    Função que remove uma tarefa. Ele usa o FINDINDEX pra procurar em todos os itens
+    da array tarefa e procurar em qual posição (index) da array está o ID
+    de acordo com o id passado pelo parâmetro.
+
+    Se houver, ele remove da array (splice) usando a índice achada no findIndex,
+    salva todas as tarefas no localStorage(salvaTarefas), e renderiza todas as tarefas de novo (salvaTarefas)
+
+    PARÂMETRO: o ID da tarefa que é necessário remover.
+*/
+function removerTarefa(id) {
+    const tarefaIndex = tarefas.findIndex(function(tarefa) {
+        return tarefa.id === id;
+    });
+
+    if (tarefaIndex > -1) {
+        tarefas.splice(tarefaIndex, 1);
+        salvaTarefas(tarefas);
+        renderizaFiltro(tarefas, filtro);
+    }
 }

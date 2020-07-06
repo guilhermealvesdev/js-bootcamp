@@ -41,6 +41,7 @@ document.querySelector('#filtrar').addEventListener('input', function(e){
 document.querySelector('#formulario').addEventListener('submit', function(e){
     e.preventDefault();
     tarefas.push({
+        id:uuidv4(),
         activity:e.target.elements.tarefa.value,
         completed:false
     });
