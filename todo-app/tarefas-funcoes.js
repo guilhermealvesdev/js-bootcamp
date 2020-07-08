@@ -107,13 +107,32 @@ const renderizaFiltro = function(tarefas, filtro){
     PARÂMETRO: É o item que vai ser lido da array e adicionado ao <p>.
 */
 function gerarTarefasDOM(item) {
+    //Container que tem todos o conteúdo da tarefa.
     const container = document.createElement('div');
 
+    /*
+        Aqui cria-se o checkbox.
+        Ao ser renderizado, o valor de CHECKED é igual caso
+        a tarefa tenha sido completada ou não.
+    */
     const checkTarefa = document.createElement('input');
     checkTarefa.setAttribute('type', 'checkbox');
+    checkTarefa.checked = item.completed;
+
+    checkTarefa.addEventListener('change', function(){
+        completarTarefa(item.id);
+        salvaTarefas(tarefas);
+        renderizaFiltro(tarefas, filtro);
+    });
     
+    //Span que tem o texto da tarefa.
     const spanTarefa = document.createElement('span');
     
+    /*
+        Cria-se o botão de remover.
+        A cada clique, chama-se a função removerTarefa, passando o ID de qual
+        tarefa foi clicada.
+    */ 
     const botaoRemoveTarefa = document.createElement('button');
     botaoRemoveTarefa.textContent = "X";
     botaoRemoveTarefa.addEventListener('click', function(e){
@@ -163,5 +182,19 @@ function removerTarefa(id) {
         tarefas.splice(tarefaIndex, 1);
         salvaTarefas(tarefas);
         renderizaFiltro(tarefas, filtro);
+    }
+}
+
+/*
+    Função que completa uma tarefa ao usuário clicar no checkbox.
+*/
+
+function completarTarefa(id) {
+    const tarefa = tarefas.find(function(tarefa){
+        return tarefa.id === id;
+    });
+
+    if (tarefa !== undefined) {
+        tarefa.completed = !tarefa.completed;
     }
 }
