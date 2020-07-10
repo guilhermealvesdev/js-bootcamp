@@ -171,7 +171,7 @@ function pegaResumo(arrayTarefasIncompletas){
     Se houver, ele remove da array (splice) usando a índice achada no findIndex,
     salva todas as tarefas no localStorage(salvaTarefas), e renderiza todas as tarefas de novo (salvaTarefas)
 
-    PARÂMETRO: o ID da tarefa que é necessário remover.
+    PARÂMETRO: o ID da tarefa que estamos procurando remover.
 */
 function removerTarefa(id) {
     const tarefaIndex = tarefas.findIndex(function(tarefa) {
@@ -187,6 +187,15 @@ function removerTarefa(id) {
 
 /*
     Função que completa uma tarefa ao usuário clicar no checkbox.
+
+    Aqui o JS procura (find) na array Tarefas o primeiro registro (que é o intuito da função find)
+    que tiver do id igual ao id que foi passado no parâmetro. E esse valor é assimilado
+    à variável "tarefa".
+
+    Logo depois, há uma checagem pra ver se a tarefa não é undefined (isto é, se ela existe).
+    Se ela existir, a propriedade "completed" dela é trocada (isto é, se ela estava FASLE, vira TRUE, e vice-versa).
+    
+    PARÂMETRO: o id da tarefa que estamos procurando completar.
 */
 
 function completarTarefa(id) {
