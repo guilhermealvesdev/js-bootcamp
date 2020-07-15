@@ -1,4 +1,4 @@
-const notes = getSavedNotes()
+let notes = getSavedNotes()
 
 const filters = {
     searchText: ''
@@ -26,3 +26,24 @@ document.querySelector('#search-text').addEventListener('input', function (e) {
 document.querySelector('#filter-by').addEventListener('change', function (e) {
     console.log(e.target.value)
 })
+
+window.addEventListener('storage', function(e){
+    if (e.key === 'notes') {
+        notes = JSON.parse(e.newValue);
+        renderNotes(notes, filters)
+    }
+});
+
+
+
+/*
+    Datas
+*/
+const data1 = new Date("June 16 1999");
+const data2 = new Date("July 12 2012");
+
+if (data1.getTime() < data2.getTime()) {
+    console.log(data1.toString());
+} else {
+    console.log(data2.toString());
+}
