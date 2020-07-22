@@ -23,7 +23,7 @@ renderizaFiltro(tarefas, filtro);
 *******************************/
 
 //Listener pra quando o usuário digitar no campo de input
-document.querySelector('#filtrar').addEventListener('input', function(e){
+document.querySelector('#filtrar').addEventListener('input', (e) => {
     filtro.texto = e.target.value;    
     renderizaFiltro(tarefas, filtro);
 });
@@ -38,7 +38,7 @@ document.querySelector('#filtrar').addEventListener('input', function(e){
     Assim, na próxima vez que o usuário entrar na página, ele vai buscar (no início do arquivo está esse código)
     no localStorage e renderizar a nova array atualizada.
 */
-document.querySelector('#formulario').addEventListener('submit', function(e){
+document.querySelector('#formulario').addEventListener('submit', (e) => {
     e.preventDefault();
     tarefas.push({
         id:uuidv4(),
@@ -55,7 +55,7 @@ document.querySelector('#formulario').addEventListener('submit', function(e){
 });
 
 //Ocultar completados
-document.querySelector('#oculta-completados').addEventListener('change', function(e){
+document.querySelector('#oculta-completados').addEventListener('change', (e) => {
     filtro.ocultaCompletas = e.target.checked;
     renderizaFiltro (tarefas, filtro);
 })

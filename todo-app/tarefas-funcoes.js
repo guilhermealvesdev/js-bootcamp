@@ -5,13 +5,9 @@
     Se não, ele retorna uma nova array.
 */
 function pegaTarefas(){
-    const tarefasJSON = localStorage.getItem("tarefas");
+    let tarefasJSON = localStorage.getItem("tarefas");
 
-    if (tarefasJSON !== null){
-        return JSON.parse(tarefasJSON);
-    } else {
-        return [];
-    }
+    return tarefasJSON !== null ? JSON.parse(tarefasJSON) : [];
 }
 
 /*
@@ -28,7 +24,7 @@ function salvaTarefas(array) {
 /*
     Função que renderiza todos os itens da array
 */
-const renderizaFiltro = function(tarefas, filtro){
+const renderizaFiltro = (tarefas, filtro) => {
 
     /*
         Cria uma nova array (o filter cria) que retorna todos os itens da array TAREFAS (que veio no parâmetro)
@@ -36,9 +32,7 @@ const renderizaFiltro = function(tarefas, filtro){
         que por sua vez é alimentado toda vez quando o usuário digita no campo de input
     */
 
-    let filtrados = tarefas.filter(function(item){
-        return item.activity.toLowerCase().includes(filtro.texto.toLowerCase());
-    });
+    let filtrados = tarefas.filter((item) => item.activity.toLowerCase().includes(filtro.texto.toLowerCase()));
 
     /*
         Aqui é elaborado. Mas dá pra entender, juro.
@@ -62,9 +56,7 @@ const renderizaFiltro = function(tarefas, filtro){
         de um TRUE pra renderizar algo). Se o valor do objeto estiver como FALSE (isto é, incompleto), virará TRUE no
         return, e aparecerá na lista final (uma tarefa que não foi completada ainda).
     */
-    filtrados = filtrados.filter(function(item){
-        return !filtro.ocultaCompletas || !item.completed;
-    });
+    filtrados = filtrados.filter((item) => !filtro.ocultaCompletas || !item.completed);
 
     /*
         Filtar incompletos.
@@ -72,9 +64,7 @@ const renderizaFiltro = function(tarefas, filtro){
         Então, as que tiverem FALSE, vão virar TRUE, e aparecer na lista.
         As que tiverem TRUE (completas), vão virar FALSE, e não vão aparecer.
     */
-    const tarefasIncompletas = filtrados.filter(function(item){
-        return !item.completed;
-    });
+    const tarefasIncompletas = filtrados.filter((item) => !item.completed);
     
     /*
         Limpar a barra de busca
@@ -94,7 +84,7 @@ const renderizaFiltro = function(tarefas, filtro){
         gerarTarefasDOM(), que retorna um <p>, que é adicionado
         à div #lista.
     */
-    filtrados.forEach(function(item){
+    filtrados.forEach((item) => {
         document.querySelector("#lista").appendChild(gerarTarefasDOM(item));
     });
 };
@@ -106,7 +96,7 @@ const renderizaFiltro = function(tarefas, filtro){
 
     PARÂMETRO: É o item que vai ser lido da array e adicionado ao <p>.
 */
-function gerarTarefasDOM(item) {
+const gerarTarefasDOM = (item) => {
     //Container que tem todos o conteúdo da tarefa.
     const container = document.createElement('div');
 
@@ -156,7 +146,7 @@ function gerarTarefasDOM(item) {
     PARÂMETRO: Ele pega a array que tem a quantidade de tarefas incompletas, e renderiza
     a quantidade (length) que ela tem.
 */
-function pegaResumo(arrayTarefasIncompletas){
+const pegaResumo = (arrayTarefasIncompletas) => {
     const resumo = document.createElement('h2');
     resumo.textContent = `Você tem ${arrayTarefasIncompletas.length} tarefas pra fazer`
 
@@ -173,10 +163,8 @@ function pegaResumo(arrayTarefasIncompletas){
 
     PARÂMETRO: o ID da tarefa que estamos procurando remover.
 */
-function removerTarefa(id) {
-    const tarefaIndex = tarefas.findIndex(function(tarefa) {
-        return tarefa.id === id;
-    });
+const removerTarefa = (id) => {
+    const tarefaIndex = tarefas.findIndex((tarefa) => tarefa.id === id);
 
     if (tarefaIndex > -1) {
         tarefas.splice(tarefaIndex, 1);
@@ -198,10 +186,8 @@ function removerTarefa(id) {
     PARÂMETRO: o id da tarefa que estamos procurando completar.
 */
 
-function completarTarefa(id) {
-    const tarefa = tarefas.find(function(tarefa){
-        return tarefa.id === id;
-    });
+const completarTarefa = (id) => {
+    const tarefa = tarefas.find((tarefa) => tarefa.id === id);
 
     if (tarefa !== undefined) {
         tarefa.completed = !tarefa.completed;

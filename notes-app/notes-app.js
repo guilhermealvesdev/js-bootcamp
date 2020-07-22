@@ -14,7 +14,7 @@ renderNotes(notes, filters)
     Ele cria um ID e um timeStamp único, cria um objeto e adiciona à array NOTES.
     Além disso, salva-se no localStorage, e leva o usuário à página de edit da nota.
 */
-document.querySelector('#create-note').addEventListener('click', function (e) {
+document.querySelector('#create-note').addEventListener('click', (e) => {
     const id = uuidv4();
     const timestamp = moment().valueOf();
 
@@ -33,7 +33,7 @@ document.querySelector('#create-note').addEventListener('click', function (e) {
     Aqui, a cada mudança do input de pesquisa, o objeto de filtro muda,
     e a função de renderizar é chamada atualizada.
 */
-document.querySelector('#search-text').addEventListener('input', function (e) {
+document.querySelector('#search-text').addEventListener('input', (e) => {
     filters.searchText = e.target.value
     renderNotes(notes, filters)
 })
@@ -42,7 +42,7 @@ document.querySelector('#search-text').addEventListener('input', function (e) {
     Aqui é a mesma coisa, só que só é disparado quando o usuário mudar
     o dropdown de "filtrar por".
 */
-document.querySelector('#filter-by').addEventListener('change', function (e) {
+document.querySelector('#filter-by').addEventListener('change', (e) => {
     filters.sortBy = e.target.value;
     renderNotes(notes, filters);
 })

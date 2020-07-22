@@ -11,9 +11,7 @@ const removeElement = document.querySelector("#remove-note");
 const spanElement = document.querySelector("#last-edited");
 
 //Procurando objeto na array Notes, usando o noteId como referência.
-let note = notes.find(function (note){
-    return note.id === noteId
-});
+let note = notes.find((note) => note.id === noteId);
 
 //Se não existir, ele volta pra tela inicial.
 if (note === undefined) {
@@ -36,7 +34,7 @@ spanElement.textContent = generateLastEdited(note.updatedAt)
     
     E aí salva-se no localStorage novamente.
 */
-titleElement.addEventListener("input", function(e){
+titleElement.addEventListener("input", (e) => {
     note.title = e.target.value;
     note.updatedAt = moment().valueOf();
     spanElement.textContent = generateLastEdited(note.updatedAt)
@@ -44,7 +42,7 @@ titleElement.addEventListener("input", function(e){
 });
 
 //Aqui, a mesma coisa de acima, apenas que se muda quando o usuário mexer no input de body.
-bodyElement.addEventListener("input", function(e){
+bodyElement.addEventListener("input", (e) => {
     note.body = e.target.value;
     note.updatedAt = moment().valueOf();
     spanElement.textContent = generateLastEdited(note.updatedAt)
@@ -52,7 +50,7 @@ bodyElement.addEventListener("input", function(e){
 });
 
 //Aqui remove-se o elemento que o usuário estiver editando, salva-se no localStorage, e volta pra tela inicial.
-removeElement.addEventListener("click", function(){
+removeElement.addEventListener("click", () => {
     removeNote(note.id);
     saveNotes(notes);
     location.assign('/index.html')
@@ -65,7 +63,7 @@ removeElement.addEventListener("click", function(){
     Isso é pra cobrir cenários de quando o usuário tiver duas janelas abertas,
     e o conteúdo mudar em tempo real.
 */
-window.addEventListener('storage', function(e){
+window.addEventListener('storage', (e) => {
     if (e.key === 'notes') {
         notes = JSON.parse(e.newValue);
 

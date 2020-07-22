@@ -4,14 +4,10 @@
     Se sim, atualizar a array tarefas.
     Se não, ele retorna uma nova array.
 */
-const getSavedNotes = function () {
+const getSavedNotes = () => {
     const notesJSON = localStorage.getItem('notes')
 
-    if (notesJSON !== null) {
-        return JSON.parse(notesJSON)
-    } else {
-        return []
-    }
+    return notesJSON !== null ? JSON.parse(notesJSON) : [];
 }
 
 /*
@@ -19,7 +15,7 @@ const getSavedNotes = function () {
 
     PARÂMETRO: é a array que ele vai usar para ler o conteúdo e salvar a tarefa.
 */
-const saveNotes = function (notes) {
+const saveNotes = (notes) => {
     localStorage.setItem('notes', JSON.stringify(notes))
 }
 
@@ -28,10 +24,8 @@ const saveNotes = function (notes) {
 
     PARÂMETRO: o ID da nota que se deseja retirar.
 */
-const removeNote = function (id) {
-    const noteIndex = notes.findIndex(function (note) {
-        return note.id === id
-    })
+const removeNote = (id) => {
+    const noteIndex = notes.findIndex((note) => note.id === id);
 
     if (noteIndex > -1) {
         notes.splice(noteIndex, 1)
@@ -43,7 +37,7 @@ const removeNote = function (id) {
 
     PARÂMETRO: A array que é desejada que o conteúdo seja renderizado.
 */
-const generateNoteDOM = function (note) {
+const generateNoteDOM = (note) => {
     const noteEl = document.createElement('div')
     const textEl = document.createElement('a')
     const button = document.createElement('button')
@@ -51,7 +45,7 @@ const generateNoteDOM = function (note) {
     //Botão de remover
     button.textContent = 'x'
     noteEl.appendChild(button)
-    button.addEventListener('click', function () {
+    button.addEventListener('click', () => {
         removeNote(note.id)
         saveNotes(notes)
         renderNotes(notes, filters)
@@ -79,15 +73,13 @@ const generateNoteDOM = function (note) {
 
     PARÂMETROS: a array de notas, e a array de filtros.
 */
-const renderNotes = function (notes, filters) {
+const renderNotes = (notes, filters) => {
     notes = sortNotes(notes, filters.sortBy);
-    const filteredNotes = notes.filter(function (note) {
-        return note.title.toLowerCase().includes(filters.searchText.toLowerCase())
-    })
+    const filteredNotes = notes.filter((note) => note.title.toLowerCase().includes(filters.searchText.toLowerCase()));
 
     document.querySelector('#notes').innerHTML = ''
 
-    filteredNotes.forEach(function (note) {
+    filteredNotes.forEach((note) => {
         const noteEl = generateNoteDOM(note)
         document.querySelector('#notes').appendChild(noteEl)
     })
@@ -96,9 +88,7 @@ const renderNotes = function (notes, filters) {
 /*
     Função que gera a mensagem de quando a nota foi mudada pela última vez
 */ 
-const generateLastEdited = function(timestamp) {
-    return `Last edited: ${moment(timestamp).fromNow()}`;
-}
+const generateLastEdited = ((timestamp) => `Last edited: ${moment(timestamp).fromNow()}`);
 
 
 /*
@@ -125,9 +115,9 @@ const generateLastEdited = function(timestamp) {
     Na alfabética, é utilizado um processo parecido, mas tem que ser usado o toLowerCase() pra ser ignorado o case
     sensitive. Se o índice de caractere do título de A for MENOR que o de B, retorna-se -1, como explicado acima..
 */
-const sortNotes = function(notes, sortBy) {
+const sortNotes = (notes, sortBy) => {
     if (sortBy === 'byEdited') {
-        return notes.sort (function (a, b) {
+        return notes.sort((a, b) => {
             if (a.updatedAt > b.updatedAt) {
                 return -1;
             } else if (a.updatedAt < b.updatedAt) {
@@ -137,7 +127,7 @@ const sortNotes = function(notes, sortBy) {
             }
         })
     } else if (sortBy === 'byCreated') {
-        return notes.sort (function (a, b) {
+        return notes.sort ((a, b) => {
             if (a.createdAt > b.createdAt) {
                 return -1;
             } else if (a.createdAt < b.createdAt) {
@@ -147,7 +137,7 @@ const sortNotes = function(notes, sortBy) {
             }
         });
     } else if (sortBy === 'alphabetical') {
-        return notes.sort(function (a, b) {
+        return notes.sort((a, b) => {
             if (a.title.toLowerCase() < b.title.toLowerCase()) {
                 return -1;
             } else if (a.title.toLowerCase() > b.title.toLowerCase()) {
