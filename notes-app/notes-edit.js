@@ -13,8 +13,14 @@ const spanElement = document.querySelector("#last-edited");
 //Procurando objeto na array Notes, usando o noteId como referência.
 let note = notes.find((note) => note.id === noteId);
 
-//Se não existir, ele volta pra tela inicial.
-if (note === undefined) {
+/*
+    Se não existir, ele volta pra tela inicial.
+    Observe que aqui estamos usando os princípios dos valores TRUTHY / FALSY.
+    
+    Isso significa que se note for undefined (que é falsy), virará true,
+    e o assign será rodado.
+*/
+if (!note) {
     location.assign('/index.html')
 }
 
@@ -71,7 +77,7 @@ window.addEventListener('storage', (e) => {
             return note.id === noteId
         });
         
-        if (note === undefined) {
+        if (!note) {
             location.assign('/index.html')
         }
         

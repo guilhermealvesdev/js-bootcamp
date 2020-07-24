@@ -7,7 +7,7 @@
 function pegaTarefas(){
     let tarefasJSON = localStorage.getItem("tarefas");
 
-    return tarefasJSON !== null ? JSON.parse(tarefasJSON) : [];
+    return tarefasJSON ? JSON.parse(tarefasJSON) : [];
 }
 
 /*
@@ -182,6 +182,9 @@ const removerTarefa = (id) => {
 
     Logo depois, há uma checagem pra ver se a tarefa não é undefined (isto é, se ela existe).
     Se ela existir, a propriedade "completed" dela é trocada (isto é, se ela estava FASLE, vira TRUE, e vice-versa).
+
+    Note que está sendo usado os valores de TRUTHY / FALSY.
+    Se a tarefa não for undefined (isto é, se existir uma tarefa), ela será alternada em completar ou não.
     
     PARÂMETRO: o id da tarefa que estamos procurando completar.
 */
@@ -189,7 +192,7 @@ const removerTarefa = (id) => {
 const completarTarefa = (id) => {
     const tarefa = tarefas.find((tarefa) => tarefa.id === id);
 
-    if (tarefa !== undefined) {
+    if (tarefa) {
         tarefa.completed = !tarefa.completed;
     }
 }
