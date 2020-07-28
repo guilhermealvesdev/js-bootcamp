@@ -1,4 +1,10 @@
 /*
+    Codificando em modo estrito,
+    pra diminuir a tolerância com erros.
+*/
+'use strict';
+
+/*
     Função que pega as tarefas no localStorage.
     Ela checa se há algum dado local (alguma TAREFA que o usuário colocou).
     Se sim, atualizar a array tarefas.
@@ -7,7 +13,11 @@
 function pegaTarefas(){
     let tarefasJSON = localStorage.getItem("tarefas");
 
-    return tarefasJSON ? JSON.parse(tarefasJSON) : [];
+    try {
+        return tarefasJSON ? JSON.parse(tarefasJSON) : [];
+    } catch (e) {
+        return [];
+    }
 }
 
 /*

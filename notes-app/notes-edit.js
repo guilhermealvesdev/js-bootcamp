@@ -1,3 +1,9 @@
+/*
+    Codificando em modo estrito,
+    pra diminuir a tolerância com erros.
+*/
+'use strict';
+
 //Variável que tem o ID do objeto que estamos mexendo, extraído do hash na URL
 const noteId = location.hash.substring(1);
 

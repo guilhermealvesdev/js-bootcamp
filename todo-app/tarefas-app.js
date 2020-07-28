@@ -1,4 +1,10 @@
 /*
+    Codificando em modo estrito,
+    pra diminuir a tolerância com erros.
+*/
+'use strict';
+
+/*
     Array principal de tarefas.
 */
 const tarefas = pegaTarefas();

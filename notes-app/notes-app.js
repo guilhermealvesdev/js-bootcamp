@@ -1,3 +1,9 @@
+/*
+    Codificando em modo estrito,
+    pra diminuir a tolerância com erros.
+*/
+'use strict';
+
 //Variável com a array que pega o conteúdo do localStorage
 let notes = getSavedNotes()
 

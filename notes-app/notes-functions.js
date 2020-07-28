@@ -1,4 +1,10 @@
 /*
+    Codificando em modo estrito,
+    pra diminuir a tolerância com erros.
+*/
+'use strict';
+
+/*
     Função que pega as notas no localStorage.
     Ela checa se há algum dado local (alguma NOTA que o usuário colocou).
     Se sim, atualizar a array tarefas.
@@ -7,7 +13,11 @@
 const getSavedNotes = () => {
     const notesJSON = localStorage.getItem('notes')
 
-    return notesJSON ? JSON.parse(notesJSON) : [];
+    try {
+        return notesJSON ? JSON.parse(notesJSON) : [];
+    } catch (e) {
+        return [];
+    }
 }
 
 /*
