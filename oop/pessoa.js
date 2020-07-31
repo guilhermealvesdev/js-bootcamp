@@ -15,7 +15,7 @@
     Como estamos usando THIS, não podemos usar arrow functions.
 */
 const Pessoa = function(nome, sobrenome, idade, interesses) {
-    this.nome = nome;
+    this.nome
     this.sobrenome = sobrenome;
     this.idade = idade;
     this.interesses = interesses;
@@ -25,6 +25,10 @@ const Pessoa = function(nome, sobrenome, idade, interesses) {
     Aqui criamos uma função chamada pegaBio que monta e retorna
     uma string com o nome da pessoa, a sua idade, e o que ela
     gosta de fazer.
+
+    Aqui estamos usando PROTOTYPE, que significa que é uma propriedade (no caso, como
+    é uma função, um método) que está sendo adicionada ao construtor (objeto).
+    Se não houvesse esse PROTOTYPE na sintaxe, o JS daria erro.
 
     Como estamos usando PROTOTYPE, ela já está sendo vinculada ao
     constructor de Pessoa.
