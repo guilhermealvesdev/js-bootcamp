@@ -15,7 +15,7 @@
     Como estamos usando THIS, não podemos usar arrow functions.
 */
 const Pessoa = function(nome, sobrenome, idade, interesses) {
-    this.nome
+    this.nome = nome;
     this.sobrenome = sobrenome;
     this.idade = idade;
     this.interesses = interesses;
