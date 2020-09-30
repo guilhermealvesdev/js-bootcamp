@@ -14,6 +14,7 @@ const Forca = function(palavra, tentativas) {
     this.palavra = palavra.toLowerCase().split("");
     this.tentativas = tentativas;
     this.letrasChutadas = [];
+    this.estado = "Jogando"
 }
 
 /*
@@ -87,24 +88,18 @@ Forca.prototype.chutaLetra = function(letra) {
 }
 
 /*
-    Aqui criamos um LISTENER pro window quando alguma
-    tecla for pressionada.
-
-    Usamos o método String.fromCharCode para traduzir o e.charCode (que retorna um NÚMERO),
-    e usamos isso como parâmetro pra função LetraChutada.
+    Aqui criamos uma função chamada checaEstado que verifica se
+    o usuário está "Jogando" (valor padrão), "Falhou" (quando acabaram as tentativas)
+    ou se "Venceu" (usando a função INCLUDES pra ver se há algum asterisco na palavra final)
 */
-window.addEventListener('keypress', function(e) {
-    const letraChutada = String.fromCharCode(e.charCode);
-    forca1.chutaLetra(letraChutada);
-    console.log(forca1.montaForca());
-    console.log(`Você só poderá tentar mais ${forca1.tentativas} vezes.`)
-});
+Forca.prototype.checaEstado = function() {
+    if (this.tentativas === 0) {
+        this.estado = "Falhou"
+    }
 
+    if (!this.montaForca().includes("*")) {
+        this.estado = "Venceu!"
+    }
 
-/*
-    Aqui criamos o joguinho.
-    A parte importante é o montaForca(), que retorna a Forca em si, com a palavra.
-*/
-const forca1 = new Forca ('SCHMEICHEL', 6);
-console.log(forca1.montaForca());
-console.log(`Você só poderá tentar mais ${forca1.tentativas} vezes.`)
+    return this.estado;
+}
