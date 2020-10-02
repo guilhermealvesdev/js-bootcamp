@@ -50,7 +50,7 @@ Forca.prototype.montaForca = function() {
     Aqui criamos uma função chamada "Chuta Letra" que recebe como parâmetro
     uma letra. É um pouquinho elaborado e confuso, eu sei. Mas dá pra entender, juro.
 
-    Aí convertemos ela pra lowercase, e temos duas variáveis:
+    Primeiro convertemos a palavra pra lowercase, e temos duas variáveis:
 
     letraUnicaChutada verifica se é uma letra que não foi chutada antes. Então verificamos
     na array letrasChutadas se ela existe (includes). Caso ela não exista (FALSE), então realmente
@@ -70,14 +70,22 @@ Forca.prototype.montaForca = function() {
     letra que foi chutada for única (isto é, não existe na array letrasChutadas) e se a
     letra não existe na array PALAVRA (isto é, foi uma letra chutada errada). Se esses
     dois valores forem TRUE, então as tentativas diminuem por um.
+
+    Há também dois detalhes importantes nessa função: uma verificação se o checaEstado retorna qualquer coisa que
+    não seja "Jogando", e retorna nada, para forçar o final da função, e o checaEstado no final de tudo para
+    atualizar o estado que o usuário está.
 */
 
-Forca.prototype.chutaLetra = function(letra) {
+Forca.prototype.chutaLetra = function(letra) {    
     letra = letra.toLowerCase();
 
     const letraUnicaChutada = !this.letrasChutadas.includes(letra);
     const letraErrada = !this.palavra.includes(letra);
-    
+
+    if (this.checaEstado() !== "Jogando") { 
+        return;
+    }
+
     if (letraUnicaChutada) {
         this.letrasChutadas.push(letra);
     }
@@ -85,6 +93,8 @@ Forca.prototype.chutaLetra = function(letra) {
     if (letraUnicaChutada && letraErrada) {
         this.tentativas--;
     }
+
+    this.checaEstado();
 }
 
 /*
@@ -94,12 +104,30 @@ Forca.prototype.chutaLetra = function(letra) {
 */
 Forca.prototype.checaEstado = function() {
     if (this.tentativas === 0) {
-        this.estado = "Falhou"
+        this.estado = "Falhou";
+    } else if (!this.montaForca().includes("*")) {
+        this.estado = "Venceu"
+    } else {
+        return this.estado;
     }
+}
 
-    if (!this.montaForca().includes("*")) {
-        this.estado = "Venceu!"
+/*
+    Aqui criamos uma função chamada retornaMensagem que verifica o estado
+    que o usuário tem no jogo, e retorna uma mensagem apropriada para
+    cada estado.
+
+    O .join('') no "Falhou" junta (join) todas os itens da array, e, como passamos
+    como parâmetro uma string vazia, ele não vai colocar nada entre os itens da array
+    na hora de juntar.
+*/
+
+Forca.prototype.retornaMensagem = function() {
+    if (this.estado === "Jogando") {
+        return `Tentativas restantes: ${this.tentativas}`
+    } else if (this.estado === "Falhou") {
+        return `Que pena! A palavra era ${this.palavra.join('')}.`
+    } else {
+        return `Parabéns! Você adivinhou a palavra.`
     }
-
-    return this.estado;
 }
