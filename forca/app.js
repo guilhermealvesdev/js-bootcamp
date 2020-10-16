@@ -18,8 +18,8 @@ const $tentativasMsg = document.querySelector('.tentativasMsg');
 window.addEventListener('keypress', function(e) {
     const letraChutada = String.fromCharCode(e.charCode);
     forca1.chutaLetra(letraChutada);
-    $palavra.textContent = forca1.montaForca();
-    $tentativasMsg.textContent = forca1.retornaMensagem();
+    $palavra.textContent = forca1.forca;
+    $tentativasMsg.textContent = forca1.retornaMensagem;
 });
 
 
@@ -27,6 +27,6 @@ window.addEventListener('keypress', function(e) {
     Aqui criamos o joguinho.
     A parte importante é o montaForca(), que retorna a Forca em si, com a palavra.
 */
-const forca1 = new Forca ('SCHMEICHEL', 2);
-$palavra.textContent = forca1.montaForca();
-$tentativasMsg.textContent = forca1.retornaMensagem();
+const forca1 = new Forca ('CAR PARTS', 2);
+$palavra.textContent = forca1.forca;
+$tentativasMsg.textContent = forca1.retornaMensagem;

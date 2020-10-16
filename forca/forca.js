@@ -34,7 +34,7 @@ class Forca {
 
         Finalmente, ela retorna a string pro usuário.
     */
-    montaForca() {
+    get forca() {
         let forca = '';
 
         this.palavra.forEach((letra) => {
@@ -107,7 +107,7 @@ class Forca {
     checaEstado() {
        if (this.tentativas === 0) {
            this.estado = "Falhou";
-        } else if (!this.montaForca().includes("*")) {
+        } else if (!this.forca.includes("*")) {
             this.estado = "Venceu"
         } else {
             return this.estado;
@@ -123,7 +123,7 @@ class Forca {
         como parâmetro uma string vazia, ele não vai colocar nada entre os itens da array
         na hora de juntar.
     */
-    retornaMensagem() {
+    get retornaMensagem() {
        if (this.estado === "Jogando") {
            return `Tentativas restantes: ${this.tentativas}`
         } else if (this.estado === "Falhou") {
