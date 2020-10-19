@@ -1,3 +1,5 @@
+
+
 /*
     Selecionando os elementos DOM
 */
@@ -15,7 +17,7 @@ const $tentativasMsg = document.querySelector('.tentativasMsg');
     Depois, os elementos de palavra e mensagem são associados aos respectivos valores.
 */
 
-window.addEventListener('keypress', function(e) {
+window.addEventListener('keypress', (e) => {
     const letraChutada = String.fromCharCode(e.charCode);
     forca1.chutaLetra(letraChutada);
     $palavra.textContent = forca1.forca;
@@ -30,3 +32,22 @@ window.addEventListener('keypress', function(e) {
 const forca1 = new Forca ('CAR PARTS', 2);
 $palavra.textContent = forca1.forca;
 $tentativasMsg.textContent = forca1.retornaMensagem;
+
+
+//Aqui fazemos request.
+const codigoPais = "BR";
+const xhr = new XMLHttpRequest();
+
+xhr.open("GET", "http://restcountries.eu/rest/v2/all");
+xhr.send();
+
+xhr.addEventListener("readystatechange", (e) => {
+    if (e.target.readyState === 4 && e.target.status === 200) {
+        const data = JSON.parse(e.target.responseText);
+        const pais = data.find((item) => item.alpha2Code === codigoPais );
+
+        console.log(pais.name);
+    } else if(e.target.readyState === 4) {
+        console.log('Deu ruim');
+    }
+});
