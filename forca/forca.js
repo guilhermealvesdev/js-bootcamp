@@ -122,6 +122,8 @@ class Forca {
         O .join('') no "Falhou" junta (join) todas os itens da array, e, como passamos
         como parâmetro uma string vazia, ele não vai colocar nada entre os itens da array
         na hora de juntar.
+
+        Favor ver sobre GET e SET no caderninho.
     */
     get retornaMensagem() {
        if (this.estado === "Jogando") {
