@@ -1,19 +1,23 @@
 /*
     Aqui definimos uma função chamada "pegaNomePaís".
 
-    PARÂMETROS: o código do país que estamos procurando, e a função
-    que vai fazer algo dentro desse código (callback).
+    PARÂMETRO: o código do país que estamos procurando.
 
-    Por que estamos usando callback e não return? Porque aqui, pequeno
-    gafanhoto, estamos usando HTTPRequest. HTTPRequest é a forma que
+    Aqui, pequeno gafanhoto, estamos usando HTTPRequest. HTTPRequest é a forma que
     o JS usa para ir buscar conteúdo num endpoint (URL com data, geralmente JSON).
 
-    Returns, etc, não poderiam ser usados, pois violariam a ASSINCRONIA (asynchronous) do
-    JavaScript. Dessa forma, garantimos que uma função será disparada após
-    resposta do HTTPRequest e o resto do código (do outro arquivo) pode continuar
-    normalmente, ao invés de termos que esperar resposta para prosseguir.
+    Aí retornamos uma PROMISE. Promises são usadas em ASSINCRONIA (asynchronous) para
+    tratar um valor após ele aparecer. Desta forma, ordenamos o JS o que fazer após o HTTPRequest
+    terminar o request.
+
+    Usamos RESOLVE para tratar quando o valor vier corretamente, e REJECT quando der algum problema.
+
+    Toda promise recebe uma função como argumento (CALLBACK), e passamos dois parâmetros pra essa função,
+    o resolve e o reject.
+    
+    REFERÊNCIA PARA PROMISES: https://blog.matheuscastiglioni.com.br/trabalhando-com-promises-em-javascript/
 */
-const pegaNomePais = (codigo, callback) => {
+const pegaNomePais = (codigo) => new Promise ((resolve, reject) => {
 
     //Aqui criamos uma variável que chama o HTTPRequest. Lembra das _xhr do Marcio? É isso.
     const xhr = new XMLHttpRequest();
@@ -37,13 +41,11 @@ const pegaNomePais = (codigo, callback) => {
         e rodando um find para procurar o código "alpha2Code" do objeto de acordo com o parâmetro codigo
         que passamos na chamada da função.
         
-        Aí, ordenamos que a função que passamos (callback) trate esse dado: se deu tudo certo,
-        passamos undefined como erro (que é o primeiro parâmetro) e o país como segundo, pra
-        mostrar que deu certo.
+        Aí, ordenamos que o RESOLVE da Promise trate esse dado: se deu tudo certo, passamos o país
+        que ele foi buscar no objeto e retornamos.
 
         Caso o readyState seja "4" (isto é, DONE), e o status não for 200, significa que
-        houve algo errado, e a chamada da função terá apenas o parâmetro de erro ("deu ruim"),
-        já que o segundo é undefined por natureza.
+        houve algo errado, e chamamos o REJECT para dizer que a Promise não foi cumprida.
 
         Ver referência no caderninho e na MDN.
     */
@@ -51,9 +53,9 @@ const pegaNomePais = (codigo, callback) => {
         if (e.target.readyState === 4 && e.target.status === 200) {
             const data = JSON.parse(e.target.responseText);
             const pais = data.find((item) => item.alpha2Code === codigo);
-            callback(undefined, pais);
+            resolve(pais);
         } else if(e.target.readyState === 4) {
-            callback("Deu ruim");
+            reject("Deu ruim");
         }
     });
-}
+});

@@ -37,11 +37,13 @@ $tentativasMsg.textContent = forca1.retornaMensagem;
 /*
     Pegando o nome de um país chamando uma função chamada
     "pegaNomePais" que usa um HTTP Request dentro de requests.js.
+
+    Como essa função "pegaNomePais" retorna uma PROMISE, precisamos
+    tratar a resposta com um THEN. O THEN é uma função que recebe
+    dois parâmetros: o RESOLVE, e o REJECT, nesta ordem.
 */
-pegaNomePais("BR", (error, nomePais) => {
-    if (error) {
-        console.log(`Erro: ${error}`);
-    } else {
-        console.log(nomePais.name);
-    }
+pegaNomePais("BR").then((pais) => {
+    console.log(pais.name);
+}, (erro) => {
+    console.log(erro);
 });
