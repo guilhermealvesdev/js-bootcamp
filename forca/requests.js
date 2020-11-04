@@ -1,5 +1,38 @@
+const pegaLocalizacao = () => {
+    return fetch("https://ipinfo.io/json?token=9d6a12bbcb2357").then(response => {
+        if (response.status === 200) {
+            return response.json();
+        } else {
+            throw new Error("Deu ruim");
+        }
+    }).catch(err => {
+        console.log(err);
+    });
+}
+
+
+
+const pegaNomePais = (codigo) => {
+
+    return fetch("http://restcountries.eu/rest/v2/all").then(response => {
+        if (response.status === 200) {
+            return response.json();
+        } else {
+            throw new Error ("Deu ruim");
+        }
+    }).then(data => {
+        return data.find((item) => item.alpha2Code === codigo);
+    }).catch(err => {
+        console.log(err)
+    });
+};
+
+
+
+
+
 /*
-    Aqui definimos uma função chamada "pegaNomePaís".
+    Aqui definimos uma função chamada "pegaNomePaísAntigo".
 
     PARÂMETRO: o código do país que estamos procurando.
 
@@ -17,7 +50,7 @@
     
     REFERÊNCIA PARA PROMISES: https://blog.matheuscastiglioni.com.br/trabalhando-com-promises-em-javascript/
 */
-const pegaNomePais = (codigo) => new Promise ((resolve, reject) => {
+const pegaNomePaisAntigo = (codigo) => new Promise ((resolve, reject) => {
 
     //Aqui criamos uma variável que chama o HTTPRequest. Lembra das _xhr do Marcio? É isso.
     const xhr = new XMLHttpRequest();

@@ -43,7 +43,16 @@ $tentativasMsg.textContent = forca1.retornaMensagem;
     dois parâmetros: o RESOLVE, e o REJECT, nesta ordem.
 */
 pegaNomePais("BR").then((pais) => {
-    console.log(pais.name);
-}, (erro) => {
-    console.log(erro);
+    return pais.name;
+}).catch(err => {
+    console.log(err);
+});
+
+
+pegaLocalizacao().then((data) => {
+    return pegaNomePais(data.country);
+}).then((data) => {
+    console.log(data.name);
+}).catch(err => {
+    console.log(err);
 });
