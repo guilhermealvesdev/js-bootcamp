@@ -1,31 +1,34 @@
-const pegaLocalizacao = () => {
-    return fetch("https://ipinfo.io/json?token=9d6a12bbcb2357").then(response => {
-        if (response.status === 200) {
-            return response.json();
-        } else {
-            throw new Error("Deu ruim");
-        }
-    }).catch(err => {
-        console.log(err);
-    });
+const pegaLocalizacao = async () => {
+    const response = await fetch("https://ipinfo.io/json?token=9d6a12bbcb2357");
+
+    if (response.status === 200) {
+        const data = await response.json();
+        return data;
+    } else {
+        throw new Error ("Deu ruim");
+    }
+}
+
+const pegaPaisLocalizacao = async () => {
+    const local = await pegaLocalizacao();
+    const pais = await pegaNomePais(local.country);
+    
+    return pais;
 }
 
 
 
-const pegaNomePais = (codigo) => {
+const pegaNomePais = async (codigo) => {
 
-    return fetch("http://restcountries.eu/rest/v2/all").then(response => {
-        if (response.status === 200) {
-            return response.json();
-        } else {
-            throw new Error ("Deu ruim");
-        }
-    }).then(data => {
-        return data.find((item) => item.alpha2Code === codigo);
-    }).catch(err => {
-        console.log(err)
-    });
-};
+    const response = await fetch("http://restcountries.eu/rest/v2/all");
+
+    if (response.status === 200) {
+        const data = await response.json();
+        return data.find((item) => { return item.alpha2Code === codigo; });
+    } else {
+        throw new Error ("Deu Ruim");
+    }
+}
 
 
 

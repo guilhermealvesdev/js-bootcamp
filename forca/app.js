@@ -48,11 +48,17 @@ pegaNomePais("BR").then((pais) => {
     console.log(err);
 });
 
-
-pegaLocalizacao().then((data) => {
-    return pegaNomePais(data.country);
-}).then((data) => {
-    console.log(data.name);
-}).catch(err => {
+pegaPaisLocalizacao().then((data) => {
+    console.log(data.name)
+}).catch((err) => {
     console.log(err);
-});
+})
+
+
+// pegaLocalizacao().then((data) => {
+//     return pegaNomePais(data.country);
+// }).then((data) => {
+//     console.log(data.name);
+// }).catch(err => {
+//     console.log(err);
+// });
