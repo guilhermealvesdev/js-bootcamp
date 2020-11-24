@@ -1,14 +1,4 @@
-const name = 'Jen'
-console.log(name)
+//Aqui usamos IMPORT para chamar a função SCREAM de SCREAM.JS.
+import { scream } from './scream'
 
-class Hangman {
-    myMethod() {
-        return 'Testing'
-    }
-}
-
-const hangman = new Hangman();
-
-console.log(hangman.myMethod());
-
-console.log('Teste');
+console.log(scream('a'));
