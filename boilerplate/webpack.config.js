@@ -21,6 +21,14 @@ const path = require('path');
     
     O FILENAME significa que é o nome do arquivo que queremos dar para o output.
 
+    O MODULE permite que configuremos opções no sistema de módulos. A propriedade
+    RULES espera uma array de objetos. Cada objeto é uma regra.
+
+    O DEVSERVER faz todo o trabalho do live-server e mudança de arquivos (watch)
+    numa ferramenta só.
+
+    O DEVTOOL habilita um source map, igual ao SASS.
+
     Após isso, rodamos npm run webpack (que é o script que está no package.json).
 */
 module.exports = {
@@ -28,6 +36,23 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'public/scripts'),
         filename: 'bundle.js'
-    }
+    },
+    module: {
+        rules: [{
+            test: /\.js$/,
+            exclude: /node_modules/,
+            use: {
+                loader: 'babel-loader',
+                options: {
+                    presets: ["env"]
+                }
+            }
+        }]
+    },
+    devServer: {
+        contentBase: path.resolve(__dirname, 'public'),
+        publicPath: '/scripts/'
+    },
+    devtool: 'source-map'
 }
 
